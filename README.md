@@ -1,2 +1,1 @@
-# test-basic-nextjs
-Basic nextjs application following the nextjs tutorial
+This is a starter template for [Learn Next.js](https://nextjs.org/learn).
