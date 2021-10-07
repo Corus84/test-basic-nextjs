@@ -33,6 +33,12 @@ export default function Home({ allPostsData }) {
           <a>other page!</a>
         </Link>
       </h1>
+      <h1 className="title">
+        Link to{' '}
+        <Link href="/api/hello">
+          <a>hello endpoint!</a>
+        </Link>
+      </h1>
 
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
