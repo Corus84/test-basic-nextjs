@@ -3,6 +3,7 @@ import Image from 'next/image'
 import styles from './layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
+import { LayoutData } from '../model/layout-data'
 
 const name = 'Your Name'
 export const SITE_TITLE: string = 'Next.js Sample Website'
@@ -42,7 +43,7 @@ const normalHeaderContent: JSX.Element = (
     </>
   );
 
-export default function Layout({ children, home }) {
+export default function Layout(data: LayoutData) {
   return (
     <div className={styles.container}>
       <Head>
@@ -61,10 +62,10 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
-        {home ? homeHeaderContent : normalHeaderContent }
+        {data?.home ? homeHeaderContent : normalHeaderContent }
       </header>
-      <main>{children}</main>
-      {!home && (
+      <main>{data?.children}</main>
+      {!data?.home && (
         <div className={styles.backToHome}>
           <Link href="/">
             <a>← Back to home</a>
