@@ -1,20 +1,20 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import Link from 'next/link';
-import Layout, { SITE_TITLE } from '../components/layout'
-import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
+import Date from '../components/date';
+import Layout, { SITE_TITLE } from '../components/layout';
+import utilStyles from '../styles/utils.module.css';
+import { getSortedPostsData } from '../lib/posts';
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData()
   return {
     props: {
-      allPostsData,
-      currentDate: new Date().toTimeString()
+      allPostsData
     }
   }
 }
 
-export default function Home({ allPostsData, currentDate }) {
+export default function Home({ allPostsData }) {
   return (
     <Layout home>
       <Head>
@@ -39,13 +39,13 @@ export default function Home({ allPostsData, currentDate }) {
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
             <li className={utilStyles.listItem} key={id}>
-              {title}
+              <Link href={`/posts/${id}`}>
+                <a>{title}</a>
+              </Link>
               <br />
-              {id}
-              <br />
-              {date}
-              <br/>
-              Current date: { currentDate }
+              <small className={utilStyles.lightText}>
+                <Date dateString={date} />
+              </small>
             </li>
           ))}
         </ul>

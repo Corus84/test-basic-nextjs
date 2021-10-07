@@ -3,6 +3,8 @@ import path from 'path';
 import matter, { GrayMatterFile } from 'gray-matter';
 import { IdObject } from '../model/id-object';
 import { PostParam } from '../model/post-param';
+import remark from 'remark';
+import html from 'remark-html';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
@@ -51,16 +53,23 @@ export function getAllPostIds(): PostParam[] {
   });
 }
 
-export function getPostData(id: string): IdObject {
-  const fullPath: string = path.join(postsDirectory, `${id}.md`);
-  const fileContents: string = fs.readFileSync(fullPath, 'utf8');
+export async function getPostData(id: string): Promise<IdObject> {
+  const fullPath: string = path.join(postsDirectory, `${id}.md`)
+  const fileContents: string = fs.readFileSync(fullPath, 'utf8')
 
   // Use gray-matter to parse the post metadata section
-  const matterResult: GrayMatterFile<string> = matter(fileContents);
+  const matterResult: GrayMatterFile<string> = matter(fileContents)
 
-  // Combine the data with the id
+  // Use remark to convert markdown into HTML string
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content)
+  const contentHtml = processedContent.toString()
+
+  // Combine the data with the id and contentHtml
   return {
     id,
+    contentHtml,
     ...matterResult.data
   }
 }
